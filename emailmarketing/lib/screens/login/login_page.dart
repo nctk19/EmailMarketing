@@ -1,4 +1,5 @@
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/screens/home/home_page.dart';
 import 'package:emailmarketing/screens/login/res_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,35 +11,35 @@ class LoginPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: LoginAppBar(),
-      body: SingleChildScrollView(
-        child: Container(
-          height: size.height * 1.0,
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: <Color>[
-                color1,
-                color2,
-              ],
-            ),
+      body: Container(
+        height: size.height * 1.0,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: <Color>[
+              color1,
+              color2,
+            ],
           ),
-          child: Container(
-            margin: const EdgeInsets.only(
-              top: 13 + kDefaultPadding,
-            ),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(24.0),
-                  topRight: Radius.circular(24.0)),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, -4),
-                  blurRadius: 4,
-                  //spreadRadius: 4,
-                  color: colorShadow,
-                ),
-              ],
-            ),
+        ),
+        child: Container(
+          margin: const EdgeInsets.only(
+            top: 13 + kDefaultPadding,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(24.0),
+                topRight: Radius.circular(24.0)),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, -4),
+                blurRadius: 4,
+                //spreadRadius: 4,
+                color: colorShadow,
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 // ignore: avoid_unnecessary_containers
@@ -70,7 +71,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-
+          
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 9 + kDefaultPadding,
@@ -99,7 +100,7 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
-
+          
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 9 + kDefaultPadding,
@@ -118,7 +119,14 @@ class LoginPage extends StatelessWidget {
                   width: 150.0,
                   height: 50.0,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+          
+                      Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           side: const BorderSide(
@@ -140,6 +148,7 @@ class LoginPage extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.only(
                     top: kDefaultPadding - 9,
+                    bottom: kDefaultPadding*4-2
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
