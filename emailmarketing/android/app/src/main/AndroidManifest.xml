@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.emailmarketing">
+    package="com.emailmarketing">
    <application
         android:label="emailmarketing"
         android:name="${applicationName}"
