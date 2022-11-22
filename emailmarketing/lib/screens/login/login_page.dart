@@ -1,18 +1,62 @@
+
+
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/home/home_page.dart';
+import 'package:emailmarketing/screens/login/create_page.dart';
 import 'package:emailmarketing/screens/login/res_page.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future singIn() async {
+    // ignore: avoid_print
+    print(_emailController.text.toString().trim());
+    // ignore: avoid_print
+    print(_passwordController.text.trim());
+    try {
+  // ignore: unused_local_variable
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: _emailController.text.toString().trim(), 
+      password: _passwordController.text.trim(),
+  );
+} on FirebaseAuthException catch (e) {
+  if (e.code == 'user-not-found') {
+    // ignore: avoid_print
+    print('No user found for that email.');
+  } else if (e.code == 'wrong-password') {
+    // ignore: avoid_print
+    print('Wrong password provided for that user.');
+  }
+}
+    // await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //   email: _emailController.text.toString().trim(), 
+    //   password: _passwordController.text.trim(),
+    //   );
+  }
+ 
+@override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: LoginAppBar(),
       body: Container(
-        height: size.height * 1.0,
+        height: MediaQuery.of(context).size.height * 1.0,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: <Color>[
@@ -78,6 +122,7 @@ class LoginPage extends StatelessWidget {
                     right: 9 + kDefaultPadding,
                   ),
                   child: TextFormField(
+                    controller: _emailController,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -108,6 +153,8 @@ class LoginPage extends StatelessWidget {
                     bottom: 8 * kDefaultPadding + 4,
                   ),
                   child: TextFormField(
+                    obscureText: true,
+                    controller: _passwordController ,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -120,12 +167,13 @@ class LoginPage extends StatelessWidget {
                   height: 50.0,
                   child: ElevatedButton(
                     onPressed: () {
+                      singIn();
           
-                      Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()),
-                          );
+                      // Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => const HomePage()),
+                      //     );
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -173,7 +221,7 @@ class LoginPage extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const ResPage()),
+                                builder: (context) => const CreatePage()),
                           );
                         },
                         child: const Text(

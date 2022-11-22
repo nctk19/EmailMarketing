@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/login/login_page.dart';
+import 'package:emailmarketing/screens/login/main_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LogoutSnackBar extends StatelessWidget {
@@ -134,11 +137,12 @@ class LogoutSnackBar extends StatelessWidget {
                           height: 50.0,
                           child: ElevatedButton(
                             onPressed: () {
-
+                              
+                              FirebaseAuth.instance.signOut();
                               Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const LoginPage()),
+                                builder: (context) =>  const MainPage()),
                           );
                             },
                             style: ElevatedButton.styleFrom(

@@ -3,11 +3,20 @@ import 'package:emailmarketing/screens/login/login_page.dart';
 import 'package:emailmarketing/screens/snackbar/chuyentaikhoan_snackbar.dart';
 import 'package:emailmarketing/screens/snackbar/ketnoivi_snackbar.dart';
 import 'package:emailmarketing/screens/snackbar/logout_snackbar.dart';
+import 'package:emailmarketing/screens/user/user_edit_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class UserPage extends StatelessWidget {
+class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
+  @override
+  State<UserPage> createState() => _UserPageState();
+}
+
+class _UserPageState extends State<UserPage> {
+ final user = FirebaseAuth.instance.currentUser!;
+ 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -21,6 +30,7 @@ class UserPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                
                 Container(
                   padding: const EdgeInsets.only(
                       bottom: kDefaultPadding + 11,
@@ -111,6 +121,11 @@ class UserPage extends StatelessWidget {
                             iconSize: 24,
                             icon: Image.asset('assets/images/write.png'),
                             onPressed: () {
+                              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserEditPage()),
+                            );
                               // do something
                             },
                           ),
@@ -209,7 +224,10 @@ class UserPage extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          width: 310,
+                          padding: const EdgeInsets.only(
+                            right: kDefaultPadding,
+                            left: kDefaultPadding,
+                          ),
                           height: 40,
                           margin: const EdgeInsets.only(
                             right: kDefaultPadding - 2,
@@ -389,6 +407,7 @@ class UserPage extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(
                             left: kDefaultPadding-2,
@@ -403,11 +422,12 @@ class UserPage extends StatelessWidget {
                           ),
                         ),
                 Container(
+                  
                   height: 43,
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(
                             left: kDefaultPadding-2,
-                            //top: kDefaultPadding+1,
+                           
                           ),
                           child: KetnoiviSnackBar(),
                         ),
@@ -416,7 +436,7 @@ class UserPage extends StatelessWidget {
                           alignment: Alignment.topLeft,
                           padding: const EdgeInsets.only(
                             left: kDefaultPadding-2,
-                           //top: kDefaultPadding-9,
+                           
                           ),
                           child: const LogoutSnackBar(),
                         ),

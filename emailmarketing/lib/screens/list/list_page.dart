@@ -69,6 +69,7 @@ class ListPage extends StatelessWidget {
                           width: 140.0,
                           height: 30.0,
                           child: ElevatedButton(
+                            
                             onPressed: () {
 
                               Navigator.push(
@@ -84,6 +85,8 @@ class ListPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                               backgroundColor: background2,
+                               minimumSize: Size.zero, // Set this
+    padding: EdgeInsets.zero,
                             ),
                             child: const Text(
                               'Thêm chiến dịch',

@@ -1,5 +1,6 @@
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/list/list_page.dart';
+import 'package:emailmarketing/screens/user/user_page.dart';
 import 'package:flutter/material.dart';
 
 class InputPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class InputPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: InputAppBar(),
+      appBar: InputAppBar(context),
       body: Container(
         height: size.height * 1.0,
         decoration: const BoxDecoration(
@@ -81,6 +82,8 @@ class InputPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                               backgroundColor: color1,
+                              minimumSize: Size.zero, // Set this
+    padding: EdgeInsets.zero,
                             ),
                             child: const Text(
                               'Thêm chiến dịch',
@@ -203,7 +206,7 @@ class InputPage extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4)),
                             ),
-                            width: 102,
+                            //width: 150,
                             height: 30,
                             child: Row(
                               //crossAxisAlignment: CrossAxisAlignment.start,
@@ -247,7 +250,7 @@ class InputPage extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(4)),
                             ),
-                            width: 102,
+                            //width: 102,
                             height: 30,
                             child: Row(
                               //crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,7 +353,7 @@ class InputPage extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  AppBar InputAppBar() {
+  AppBar InputAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
 
@@ -376,7 +379,13 @@ class InputPage extends StatelessWidget {
             iconSize: 48,
             icon: Image.asset('assets/images/people.png'),
             onPressed: () {
+
               // do something
+              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserPage()),
+                            );
             },
           ),
         )

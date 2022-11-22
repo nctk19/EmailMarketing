@@ -1,16 +1,25 @@
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/list/list_page.dart';
+import 'package:emailmarketing/screens/user/user_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: HomeAppBar(),
+      appBar: HomeAppBar(context),
       body: Container(
         height: size.height * 1.0,
         decoration: const BoxDecoration(
@@ -354,13 +363,13 @@ class HomePage extends StatelessWidget {
                           height: 30.0,
                           child: ElevatedButton(
                             onPressed: () {
-
+          
                               Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ListPage()),
                           );
-
+          
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 0.0,
@@ -385,10 +394,10 @@ class HomePage extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(
-                    top: kDefaultPadding,
+                    
                     right: kDefaultPadding - 3,
                     left: kDefaultPadding - 3,
-                    bottom: kDefaultPadding - 14,
+                    
                   ),
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -433,26 +442,29 @@ class HomePage extends StatelessWidget {
                             showLegendsInRow: true),
                       ),
                       Container(
+                        
                         padding: const EdgeInsets.only(
-                          top: kDefaultPadding - 5,
-                          left: kDefaultPadding * 2+4,
-                          right: kDefaultPadding * 3+8,
+                          top: kDefaultPadding - 9,
+                          left: kDefaultPadding ,
+                          right: kDefaultPadding ,
                           bottom: kDefaultPadding + 10,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             // ignore: avoid_unnecessary_containers
                             Container(
+                              
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
+                                    
                                     padding: const EdgeInsets.only(
-                                      top: kDefaultPadding - 17,
+                                      top: kDefaultPadding - 14,
                                       right: kDefaultPadding - 12,
                                     ),
-                                    height: 32,
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Container(
                                       width: 8,
@@ -464,7 +476,8 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    height: 32,
+                                    
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Column(
                                       mainAxisAlignment:
@@ -473,8 +486,10 @@ class HomePage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.only(
-                                              bottom: kDefaultPadding - 16),
+                                      height: 18,
+                                          margin: const EdgeInsets.only(
+                                              bottom: kDefaultPadding - 16
+                                              ),
                                           child: const Text(
                                             'Đã xem',
                                             style: TextStyle(
@@ -484,7 +499,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.only(),
+                                          height: 18,
+                                          
+                                          margin: const EdgeInsets.only(),
                                           child: const Text(
                                             '12.423',
                                             style: TextStyle(
@@ -499,17 +516,19 @@ class HomePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // ignore: avoid_unnecessary_containers
+                           // ignore: avoid_unnecessary_containers
                             Container(
+                              
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
+                                    
                                     padding: const EdgeInsets.only(
-                                      top: kDefaultPadding - 17,
+                                      top: kDefaultPadding - 14,
                                       right: kDefaultPadding - 12,
                                     ),
-                                    height: 32,
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Container(
                                       width: 8,
@@ -521,7 +540,8 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    height: 32,
+                                    
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Column(
                                       mainAxisAlignment:
@@ -530,8 +550,10 @@ class HomePage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.only(
-                                              bottom: kDefaultPadding - 16),
+                                      height: 18,
+                                          margin: const EdgeInsets.only(
+                                              bottom: kDefaultPadding - 16
+                                              ),
                                           child: const Text(
                                             'Đã mở',
                                             style: TextStyle(
@@ -541,7 +563,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.only(),
+                                          height: 18,
+                                          
+                                          margin: const EdgeInsets.only(),
                                           child: const Text(
                                             '12.423',
                                             style: TextStyle(
@@ -556,17 +580,19 @@ class HomePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // ignore: avoid_unnecessary_containers
+                           // ignore: avoid_unnecessary_containers
                             Container(
+                              
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
+                                    
                                     padding: const EdgeInsets.only(
-                                      top: kDefaultPadding - 17,
+                                      top: kDefaultPadding - 14,
                                       right: kDefaultPadding - 12,
                                     ),
-                                    height: 32,
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Container(
                                       width: 8,
@@ -578,7 +604,8 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    height: 32,
+                                    
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Column(
                                       mainAxisAlignment:
@@ -587,8 +614,10 @@ class HomePage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.only(
-                                              bottom: kDefaultPadding - 16),
+                                      height: 18,
+                                          margin: const EdgeInsets.only(
+                                              bottom: kDefaultPadding - 16
+                                              ),
                                           child: const Text(
                                             'Spam',
                                             style: TextStyle(
@@ -598,7 +627,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.only(),
+                                          height: 18,
+                                          
+                                          margin: const EdgeInsets.only(),
                                           child: const Text(
                                             '12.423',
                                             style: TextStyle(
@@ -613,17 +644,19 @@ class HomePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            // ignore: avoid_unnecessary_containers
+                           // ignore: avoid_unnecessary_containers
                             Container(
+                              
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
+                                    
                                     padding: const EdgeInsets.only(
-                                      top: kDefaultPadding - 17,
+                                      top: kDefaultPadding - 14,
                                       right: kDefaultPadding - 12,
                                     ),
-                                    height: 32,
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Container(
                                       width: 8,
@@ -635,7 +668,8 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   Container(
-                                    height: 32,
+                                    
+                                    height: 40,
                                     alignment: Alignment.topLeft,
                                     child: Column(
                                       mainAxisAlignment:
@@ -644,8 +678,10 @@ class HomePage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          padding: const EdgeInsets.only(
-                                              bottom: kDefaultPadding - 16),
+                                      height: 18,
+                                          margin: const EdgeInsets.only(
+                                              bottom: kDefaultPadding - 16
+                                              ),
                                           child: const Text(
                                             'Khác',
                                             style: TextStyle(
@@ -655,7 +691,9 @@ class HomePage extends StatelessWidget {
                                           ),
                                         ),
                                         Container(
-                                          padding: const EdgeInsets.only(),
+                                          height: 18,
+                                          
+                                          margin: const EdgeInsets.only(),
                                           child: const Text(
                                             '12.423',
                                             style: TextStyle(
@@ -670,7 +708,8 @@ class HomePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          ],
+                           
+                            ],
                         ),
                       )
                     ],
@@ -700,7 +739,7 @@ class HomePage extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  AppBar HomeAppBar() {
+  AppBar HomeAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       
@@ -712,7 +751,7 @@ class HomePage extends StatelessWidget {
           left: kDefaultPadding,
         ),
         child: const Text(
-          "TRANG CHỦ",
+          "TRANG CHỦ" ,
           textAlign: TextAlign.left,
           style: TextStyle(
               color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
@@ -729,6 +768,11 @@ class HomePage extends StatelessWidget {
         icon: Image.asset('assets/images/people.png'),
         onPressed: () {
           // do something
+          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserPage()),
+                            );
         },
       ),
     )

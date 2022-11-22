@@ -1,5 +1,7 @@
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/login/login_page.dart';
+import 'package:emailmarketing/screens/login/main_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SuccessPage extends StatelessWidget {
@@ -66,11 +68,12 @@ class SuccessPage extends StatelessWidget {
                     height: 36.8,
                     child: ElevatedButton(
                       onPressed: () {
-                        
+
+                        FirebaseAuth.instance.signOut();
                         Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const LoginPage()),
+                                    builder: (context) => const MainPage()),
                               );
                       },
                       style: ElevatedButton.styleFrom(

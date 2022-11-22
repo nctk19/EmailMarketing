@@ -1,10 +1,52 @@
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/login/success_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ResPage extends StatelessWidget {
+class ResPage extends StatefulWidget {
   const ResPage({super.key});
 
+  @override
+  State<ResPage> createState() => _ResPageState();
+}
+
+class _ResPageState extends State<ResPage> {
+
+  final _emailController = TextEditingController();
+  final _sdtController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future singUp() async {
+    try {
+
+  // ignore: unused_local_variable
+  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: _emailController.text.toString().trim(), 
+      password: _passwordController.text.trim(),
+      
+  );
+  // ignore: avoid_print
+  print('tao thanh cong');
+
+} 
+on FirebaseAuthException catch (e) {
+  if (e.code == 'email-already-in-use') {
+    // ignore: avoid_print
+    print('Email da ton tai');
+  
+  }
+}
+   
+  }
+ 
+
+
+@override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,6 +119,7 @@ class ResPage extends StatelessWidget {
                     right: 9 + kDefaultPadding,
                   ),
                   child: TextFormField(
+                    controller: _emailController,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -105,6 +148,7 @@ class ResPage extends StatelessWidget {
                     right: 9 + kDefaultPadding,
                   ),
                   child: TextFormField(
+                    controller: _sdtController,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -135,6 +179,8 @@ class ResPage extends StatelessWidget {
                     bottom: 4 * kDefaultPadding + 8,
                   ),
                   child: TextFormField(
+                    obscureText: true,
+                    controller: _passwordController,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -151,11 +197,9 @@ class ResPage extends StatelessWidget {
                     height: 50.0,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SuccessPage()),
-                            );
+                     
+                        singUp();
+                        
                           
                       },
                       style: ElevatedButton.styleFrom(
@@ -211,10 +255,16 @@ class ResPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8)),
               backgroundColor: Colors.white,
             ),
-            child: const Text(
-              '<',
-              style: TextStyle(
-                  color: textColor1, fontSize: 24, fontWeight: FontWeight.bold),
+            child: Container(
+              padding: const EdgeInsets.only(
+                top: 3,
+              ),
+              
+              child: const Text(
+                '<\n',
+                style: TextStyle(
+                    color: textColor1, fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),

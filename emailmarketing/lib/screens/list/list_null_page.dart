@@ -1,4 +1,5 @@
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/screens/user/user_page.dart';
 import 'package:flutter/material.dart';
 
 class ListNullPage extends StatelessWidget {
@@ -8,7 +9,7 @@ class ListNullPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: ListNullAppBar(),
+      appBar: ListNullAppBar(context),
       body: Container(
         height: size.height * 1.0,
         decoration: const BoxDecoration(
@@ -74,6 +75,8 @@ class ListNullPage extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                               backgroundColor: background2,
+                              minimumSize: Size.zero, // Set this
+    padding: EdgeInsets.zero,
                             ),
                             child: const Text(
                               'Thêm chiến dịch',
@@ -115,7 +118,7 @@ class ListNullPage extends StatelessWidget {
   }
 
   // ignore: non_constant_identifier_names
-  AppBar ListNullAppBar() {
+  AppBar ListNullAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
 
@@ -142,6 +145,11 @@ class ListNullPage extends StatelessWidget {
             icon: Image.asset('assets/images/people.png'),
             onPressed: () {
               // do something
+              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserPage()),
+                            );
             },
           ),
         )
