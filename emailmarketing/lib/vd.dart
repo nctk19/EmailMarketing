@@ -22,229 +22,318 @@ class SnackBarDemo extends StatelessWidget {
 
 // ignore: must_be_immutable
 class SnackBarPage extends StatelessWidget {
-  bool? _checked = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          showModalBottomSheet(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24)),
-              ),
-              isScrollControlled: true,
-              context: context,
-              builder: (context) {
-                return StatefulBuilder(// this is new
-                    builder: (BuildContext context, StateSetter setState) {
-                  // ignore: sized_box_for_whitespace
-                  return Container(
-                      height: 399,
-                      child: Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.only(
-                              left: kDefaultPadding + 1,
-                              top: kDefaultPadding + 15,
-                            ),
-                            child: const Text(
-                              'Kết nối ví',
-                              style: TextStyle(
-                                  color: textColor1,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.only(
-                              left: kDefaultPadding + 1,
-                              right: kDefaultPadding + 1,
-                              top: kDefaultPadding - 12,
-                            ),
-                            child: const Text(
-                              'Chọn loại ví mà bạn sẽ sử dụng để thanh toán các khoản chi tiêu bây giờ và sau này.',
-                              style: TextStyle(
-                                color: colorLine,
-                                fontSize: 14,
-                                //fontWeight: FontWeight.bold
+     
+Widget getRow(int index){
+  return ListTile(
+    title: Container(
+                    margin: const EdgeInsets.only(
+                      
+                      right: kDefaultPadding -12 ,
+                      left: kDefaultPadding -12,
+                      bottom: kDefaultPadding + 1,
+                    ),
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        top: BorderSide(width: 0.5, color: colorShadow),
+                        left: BorderSide(width: 0.5, color: colorShadow),
+                        right: BorderSide(width: 0.5, color: colorShadow),
+                        bottom: BorderSide(width: 0.5, color: colorShadow),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: Offset(0, 10),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                          color: colorShadow,
+                        ),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                padding: const EdgeInsets.only(
+                                    left: kDefaultPadding - 5,
+                                    top: kDefaultPadding - 13),
+                                child: const Text(
+                                  'Chiến dịch 1',
+                                  style: TextStyle(
+                                      color: textColor1,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                          ),
-                          Container(
-                              alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.only(
-                                left: kDefaultPadding + 1,
-                                right: kDefaultPadding + 1,
-                                top: kDefaultPadding + 13,
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.only(
+                                    right: kDefaultPadding - 5,
+                                    top: kDefaultPadding - 10),
+                                child: const Text(
+                                  'Ngày bắt đầu:\n10/10/2000',
+                                  style: TextStyle(
+                                      color: colorNotice,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                              child: RichText(
-                                text: const TextSpan(
-                                  text: 'Chấp thuận ',
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.only(
+                            top: kDefaultPadding - 9,
+                            left: kDefaultPadding - 5,
+                            bottom: kDefaultPadding * 2 + 2,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              // ignore: avoid_unnecessary_containers
+                              Container(
+                                alignment: Alignment.center,
+                                width: 70,
+                                height: 30,
+                                margin: const EdgeInsets.only(
+                                    right: kDefaultPadding - 8),
+                                decoration: const BoxDecoration(
+                                  color: color1,
+                                ),
+                                child: const Text(
+                                  'Duy trì',
+                                  style: TextStyle(
+                                    color: textColor3,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                width: 70,
+                                height: 30,
+                                margin: const EdgeInsets.only(
+                                    right: kDefaultPadding - 8),
+                                decoration: const BoxDecoration(
+                                  color: color3,
+                                ),
+                                child: const Text(
+                                  'Duy trì',
                                   style: TextStyle(
                                     color: textColor1,
-                                    fontSize: 18,
-                                    //fontWeight: FontWeight.bold
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Điều khoản dịch vụ',
-                                        style: TextStyle(color: color2)),
-                                    TextSpan(text: ' và '),
-                                    TextSpan(
-                                        text: 'chính sách bảo mật',
-                                        style: TextStyle(color: color2)),
-                                  ],
                                 ),
-                              )),
-                          Container(
-                              height: 30,
-                              
-                              margin: const EdgeInsets.only(
-                                left: kDefaultPadding+1,
-                                top: kDefaultPadding,
+                              ),
+                              Container(
+                                alignment: Alignment.center,
+                                width: 30,
+                                height: 30,
+                                decoration: const BoxDecoration(
+                                  color: background2,
                                 ),
+                                child: const Text(
+                                  '+',
+                                  style: TextStyle(
+                                    color: textColor1,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // ignore: avoid_unnecessary_containers
+                        Container(
+                          padding: const EdgeInsets.only(
+                            bottom: kDefaultPadding-11,
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                alignment: Alignment.topLeft,
                                 padding: const EdgeInsets.only(
-                                left: 0,
-                                ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children:[
-                                  Transform.scale(
-                                    
-                                    scale: 1.7,
-                                    child: SizedBox(
-                                      width: 30,
-                                      height: 30,
-                                      child: Checkbox(
-                                        checkColor: textColor3,
-                                        activeColor: color2,
-                                        // ignore: prefer_const_constructors
-                                        side: BorderSide(
-                                                          color: color2, 
-                                                          width: 2,
-                                                        ),
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            _checked = value;
-                                          });
-                                        },
-                                        value: _checked,
+                                    left: kDefaultPadding - 5,
+                                    ),
+                                child: Row(children: [
+                                  Container(
+                                      width: 8,
+                                      height: 8,
+                                      margin: const EdgeInsets.only(
+                                        right: 3.0,
+                                      ),
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: colorNotice,
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                            alignment: Alignment.centerLeft,
-                            padding: const EdgeInsets.only(
-                              left: kDefaultPadding -5,
-                            ),
-                            child: const Text(
-                              'Tôi đã đọc và chấp thuận',
-                              style: TextStyle(
-                                  color: textColor1,
-                                  fontSize: 18,
-                                  ),
-                            ),
-                          ),
-                                ],
-                              )),
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.only(
-                              left: kDefaultPadding + 1,
-                              top: kDefaultPadding*2 + 5,
-                            ),
-                            child: const Text(
-                              'Chọn loại ví',
-                              style: TextStyle(
-                                  color: textColor1,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(
-                              left: kDefaultPadding + 1,
-                              right: kDefaultPadding + 1,
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                top: kDefaultPadding +9,
+                                  const Text("Chiến dịch được khởi chạy",style: TextStyle(
+                                                color: textColor4,
+                                                fontSize: 12,),),
+                                ],)
                               ),
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  top: BorderSide(
-                                      width: 0.5, color: colorShadow),
-                                  bottom: BorderSide(
-                                      width: 0.5, color: colorShadow),
-                                  left: BorderSide(
-                                      width: 0.5, color: colorShadow),
-                                  right: BorderSide(
-                                      width: 0.5, color: colorShadow),
-                                ),
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(4),
-                                  bottomRight: Radius.circular(4),
-                                  topLeft: Radius.circular(4),
-                                  bottomLeft: Radius.circular(4),
+                              
+            
+                              Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.only(
+                                    right: kDefaultPadding - 11),
+                                child: const Text(
+                                  'Xem ngay >>',
+                                  style: TextStyle(
+                                      color: textColor1,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              child: SizedBox(
-                                width: 370.0,
-                                height: 50.0,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    padding: const EdgeInsets.only(
-                                      left: kDefaultPadding + 3,
-                                    ),
-                                    elevation: 0.0,
-                                    shadowColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(4)),
-                                    backgroundColor: textColor3,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.only(
-                    right: kDefaultPadding,
+                            ),
+                            ]
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                  child: Image.asset("assets/images/logo-momo.png",
-                width: 24,
-                height: 24,
-                 ),
-                                        ),
-                                        Container(
-                                          child: const Text(
-                                      'Ví Momo',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                        ),
-                                      ],
-                                    ),
-                                ),
+                  
+  );
+}
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return Container(
+        height: size.height * 1.0,
+        decoration: const BoxDecoration(
+          color: background2,
+        ),
+        child: Container(
+            margin: const EdgeInsets.only(
+              top: kDefaultPadding / 2,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24.0),
+                  topRight: Radius.circular(24.0)),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // ignore: avoid_unnecessary_containers
+                      Container(
+                        padding: const EdgeInsets.only(
+                          right: kDefaultPadding - 4,
+                          top: kDefaultPadding - 2,
+                        ),
+                        child: SizedBox(
+                          width: 140.0,
+                          height: 30.0,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+                              backgroundColor: color1,
+                            ),
+                            child: const Text(
+                              'Danh sách',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
                               ),
                             ),
                           ),
-                          
-                        ],
-                      ));
-                });
-              });
-        },
-        child: const Text('Show SnackBar'),
-      ),
-    );
+                        ),
+                      ),
+                      // ignore: avoid_unnecessary_containers
+                      Container(
+                        padding: const EdgeInsets.only(
+                          top: kDefaultPadding - 2,
+                        ),
+                        child: SizedBox(
+                          width: 140.0,
+                          height: 30.0,
+                          child: ElevatedButton(
+                            
+                            onPressed: () {
+
+                              
+
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0.0,
+                              shadowColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+                              backgroundColor: background2,
+                               minimumSize: Size.zero, // Set this
+    padding: EdgeInsets.zero,
+                            ),
+                            child: const Text(
+                              'Thêm chiến dịch',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding - 5,
+                      top: kDefaultPadding,
+                    ),
+                    child: const Text(
+                      'Chiến dịch',
+                      style: TextStyle(
+                        color: textColor1,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Container(                    
+                    margin: const EdgeInsets.only(
+                      top: kDefaultPadding+1,                      
+                    ),                    
+                    width: size.width * 1.0,
+                    height: size.height * 0.75,
+                    child: Expanded(
+                      child: FutureBuilder(
+                        //future: getDocId(),
+                        builder: (context, snapshot) {
+                        return ListView.builder(
+                        itemCount: 5,
+                        itemBuilder: (context, index) => getRow(index),
+                        
+                      );
+                      },)
+                    ),
+                  ),
+                 
+                ],
+              ),
+            )),
+      );
+    
   }
 }

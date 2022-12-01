@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/login/success_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,13 +21,15 @@ class _ResPageState extends State<ResPage> {
     try {
 
   // ignore: unused_local_variable
-  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+   await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: _emailController.text.toString().trim(), 
       password: _passwordController.text.trim(),
       
   );
+  addUserDetails(_emailController.text.toString().trim(), _sdtController.text.toString().trim());
   // ignore: avoid_print
   print('tao thanh cong');
+  
 
 } 
 on FirebaseAuthException catch (e) {
@@ -39,7 +42,19 @@ on FirebaseAuthException catch (e) {
    
   }
  
-
+Future<void> addUserDetails(String email, String sdt) async {
+  CollectionReference users = FirebaseFirestore.instance.collection('user');
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String uid = auth.currentUser!.uid.toString();
+  users.add({
+    'email':email,
+    'sdt':sdt,
+    'uid':uid,
+    'ngaysinh':'',
+    'diachi':'',
+  });
+  return;
+}
 
 @override
   void dispose() {
