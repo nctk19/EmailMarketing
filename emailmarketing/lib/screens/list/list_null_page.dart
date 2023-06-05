@@ -1,4 +1,5 @@
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/screens/input/input_page.dart';
 import 'package:emailmarketing/screens/user/user_page.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,13 @@ class ListNullPage extends StatelessWidget {
                           width: 140.0,
                           height: 30.0,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const InputPage()),
+                              );
+                            },
                             style: ElevatedButton.styleFrom(
                               elevation: 0.0,
                               shadowColor: Colors.transparent,

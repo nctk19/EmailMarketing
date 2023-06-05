@@ -1,0 +1,20 @@
+{
+    "users": [
+        {
+            "email": "nctk19@gmail.com",
+            "password": "123456"
+        },
+        {
+            "email": "nctk192@gmail.com",
+            "password": "123456"
+        },
+        {
+            "email": "giangnguyen135709@gmail.com",
+            "password": "123456"
+        },
+        {
+            "email": "tranphanquoctrung22@gmail.com",
+            "password": "123456"
+        }
+    ]
+}

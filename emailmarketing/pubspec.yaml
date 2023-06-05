@@ -31,6 +31,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_stripe: ^9.2.1
+  http:
+
+  intl: ^0.17.0
+  mailer: ^6.0.0
+  flutter_email_sender: ^5.0.2
+  toast: ^0.3.0
   
   pie_chart: ^5.1.0
 
@@ -45,6 +52,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.17.4
   firebase_auth: ^3.11.2
+  image_picker: ^0.8.7+1
+  path_provider: ^2.0.14
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +86,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/user.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

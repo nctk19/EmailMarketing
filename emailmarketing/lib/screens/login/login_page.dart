@@ -1,9 +1,7 @@
 
-
 import 'package:emailmarketing/constant.dart';
-import 'package:emailmarketing/screens/home/home_page.dart';
+import 'package:emailmarketing/readdata/post_user.dart';
 import 'package:emailmarketing/screens/login/create_page.dart';
-import 'package:emailmarketing/screens/login/res_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -19,29 +17,49 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   Future singIn() async {
-    // ignore: avoid_print
-    print(_emailController.text.toString().trim());
-    // ignore: avoid_print
-    print(_passwordController.text.trim());
     try {
   // ignore: unused_local_variable
-  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+if(_emailController.text.toString().trim()!="" && _passwordController.text.trim() !="")
+{
+  await FirebaseAuth.instance.signInWithEmailAndPassword(
     email: _emailController.text.toString().trim(), 
       password: _passwordController.text.trim(),
   );
+  addUser( _emailController.text.toString().trim(),_passwordController.text.trim());
+  ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Đăng nhập thành công!!!'),
+      ),
+    );
+}
+else
+{
+ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Vui lòng nhập đầy đủ thông tin.'),
+      ),
+    );
+}
 } on FirebaseAuthException catch (e) {
   if (e.code == 'user-not-found') {
     // ignore: avoid_print
-    print('No user found for that email.');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Không tìm thấy người dùng nào cho email.'),
+      ),
+    );
   } else if (e.code == 'wrong-password') {
     // ignore: avoid_print
-    print('Wrong password provided for that user.');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Mật khẩu không đúng.'),
+      ),
+    );
   }
 }
-    // await FirebaseAuth.instance.signInWithEmailAndPassword(
-    //   email: _emailController.text.toString().trim(), 
-    //   password: _passwordController.text.trim(),
-    //   );
+catch (e) {
+  print("Loi ne nha: "+e.toString());
+}
   }
  
 @override
@@ -108,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     bottom: kDefaultPadding - 5,
                   ),
                   child: const Text(
-                    'Tên đăng nhập',
+                    'Email',
                     style: TextStyle(
                       color: textColor1,
                       fontSize: 18,
@@ -126,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
-                      labelText: 'Nhập tên đăng nhập của bạn',
+                      labelText: 'Nhập email của bạn',
                     ),
                   ),
                 ),
@@ -168,12 +186,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: ElevatedButton(
                     onPressed: () {
                       singIn();
-          
-                      // Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => const HomePage()),
-                      //     );
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

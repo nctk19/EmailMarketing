@@ -1,4 +1,6 @@
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/readdata/get_user_detail.dart';
+import 'package:emailmarketing/readdata/get_user_name.dart';
 import 'package:emailmarketing/screens/login/login_page.dart';
 import 'package:emailmarketing/screens/snackbar/chuyentaikhoan_snackbar.dart';
 import 'package:emailmarketing/screens/snackbar/ketnoivi_snackbar.dart';
@@ -84,17 +86,15 @@ class _UserPageState extends State<UserPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              width: size.width*0.5,
                               padding: const EdgeInsets.only(
                                 top: kDefaultPadding - 8,
                                 bottom: kDefaultPadding - 6,
                               ),
-                              child: const Text(
-                                'Nguyễn Văn A',
-                                style: TextStyle(
-                                    color: textColor1,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold),
-                              ),
+                              child: SingleChildScrollView
+                              (
+                                scrollDirection: Axis.horizontal,
+                                child: GetUserName(documentId: user.uid)),
                             ),
                             Container(
                               padding: const EdgeInsets.only(),
@@ -149,109 +149,8 @@ class _UserPageState extends State<UserPage> {
                         fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                    left: kDefaultPadding - 2,
-                  ),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 160,
-                          height: 40,
-                          margin: const EdgeInsets.only(
-                            right: kDefaultPadding / 2,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: textColor1,
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              '11/10/2000',
-                              style: TextStyle(
-                                color: textColor3,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 160,
-                          height: 40,
-                          margin: const EdgeInsets.only(
-                            right: kDefaultPadding / 2,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: color2,
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Phú Yên',
-                              style: TextStyle(
-                                color: textColor3,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 160,
-                          height: 40,
-                          margin: const EdgeInsets.only(
-                            right: kDefaultPadding / 2,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: color1,
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              '0382292563',
-                              style: TextStyle(
-                                color: textColor3,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                            right: kDefaultPadding,
-                            left: kDefaultPadding,
-                          ),
-                          height: 40,
-                          margin: const EdgeInsets.only(
-                            right: kDefaultPadding - 2,
-                          ),
-                          decoration: const BoxDecoration(
-                            color: color3,
-                            borderRadius: BorderRadius.all(Radius.circular(24)),
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'luutru.banguyen@gmail.com',
-                              style: TextStyle(
-                                color: textColor1,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                
+                GetUserDetail(documentId: user.uid),
                 Container(
                   padding: const EdgeInsets.only(
                     top: kDefaultPadding * 2 + 9,
@@ -327,7 +226,6 @@ class _UserPageState extends State<UserPage> {
                   ),
                 ),
                 Container(
-                  
                   padding: const EdgeInsets.only(
                     top: kDefaultPadding -13,
                     left: kDefaultPadding - 2,
@@ -335,30 +233,8 @@ class _UserPageState extends State<UserPage> {
                   child: Row(
                     
                     children: [
-                      Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: [
-                          Container(
-                            width: 64,
-                            height: 64,
-                            padding: const EdgeInsets.only(),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: colorWallet,
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.only(),
-                            width: 24,
-                            height: 24,
-                            child: Image.asset(
-                              'assets/images/wallet.png',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
+                      KetnoiviSnackBar(),
+                     Container(
                         padding: const EdgeInsets.only(
                           left: kDefaultPadding - 2,
                         ),
@@ -412,6 +288,7 @@ class _UserPageState extends State<UserPage> {
                           padding: const EdgeInsets.only(
                             left: kDefaultPadding-2,
                             top: kDefaultPadding*6-5,
+                            bottom: kDefaultPadding +1
                           ),
                           child: const Text(
                             'Tài khoản',
@@ -429,7 +306,7 @@ class _UserPageState extends State<UserPage> {
                             left: kDefaultPadding-2,
                            
                           ),
-                          child: KetnoiviSnackBar(),
+                          child: const ChuyentaikhoanSnackBar(),
                         ),
                 Container(
                   height: 33,
@@ -438,7 +315,7 @@ class _UserPageState extends State<UserPage> {
                             left: kDefaultPadding-2,
                            
                           ),
-                          child: const LogoutSnackBar(),
+                          child:  LogoutSnackBar(),
                         ),
                 
               ],

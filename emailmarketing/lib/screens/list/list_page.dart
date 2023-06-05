@@ -1,6 +1,6 @@
-
 import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/readdata/get_chiendich.dart';
+import 'package:emailmarketing/screens/home/home_page.dart';
 import 'package:emailmarketing/screens/input/input_page.dart';
 import 'package:emailmarketing/screens/user/user_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,37 +15,28 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
+  final user = FirebaseAuth.instance.currentUser!;
 
-final user = FirebaseAuth.instance.currentUser!;
-
-
-// document list
-List<String> docIDs = [];
+// document list 
+  List<String> docIDs = [];
 
 // get docIDs
-Future getDocId() async {
-  await FirebaseFirestore.instance.collection('chiendich').get().then(
-    (snapshot) => snapshot.docs.forEach(
-      (document) { 
-        print(document.reference);
-        docIDs.add(document.reference.id);
-
-      },
-    ),
-    
-    
-  );
-}
-
-
-
-
+  Future getDocId() async {
+     docIDs=[];
+    await FirebaseFirestore.instance.collection('chiendich').where('uid', isEqualTo: user.uid).get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              docIDs.add(document.reference.id);
+            },
+          ),
+        );
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
-   Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: ListAppBar(context),
       body: Container(
@@ -106,15 +97,12 @@ Future getDocId() async {
                           width: 140.0,
                           height: 30.0,
                           child: ElevatedButton(
-                            
                             onPressed: () {
-
                               Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const InputPage()),
-                          );
-
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const InputPage()),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               elevation: 0.0,
@@ -122,8 +110,8 @@ Future getDocId() async {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                               backgroundColor: background2,
-                               minimumSize: Size.zero, // Set this
-    padding: EdgeInsets.zero,
+                              minimumSize: Size.zero, // Set this
+                              padding: EdgeInsets.zero,
                             ),
                             child: const Text(
                               'Thêm chiến dịch',
@@ -152,205 +140,210 @@ Future getDocId() async {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(
-                      top: kDefaultPadding+1,                      
-                    ),                    
-                    width: size.width * 1.0,
-                    height: size.height * 0.75,
-                    child: Expanded(
-                      child: FutureBuilder(
-                        future: getDocId(),
-                        builder: (context, snapshot) {
-                        return ListView.builder(
-                        itemCount: docIDs.length,
-                        itemBuilder: (context, index) {
-                           return ListTile(
-    title: Container(
-                    margin: const EdgeInsets.only(
-                      
-                      right: kDefaultPadding -12 ,
-                      left: kDefaultPadding -12,
-                      bottom: kDefaultPadding + 1,
-                    ),
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        top: BorderSide(width: 0.5, color: colorShadow),
-                        left: BorderSide(width: 0.5, color: colorShadow),
-                        right: BorderSide(width: 0.5, color: colorShadow),
-                        bottom: BorderSide(width: 0.5, color: colorShadow),
+                      margin: const EdgeInsets.only(
+                        top: kDefaultPadding + 1,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 10),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                          color: colorShadow,
-                        ),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.topLeft,
-                                padding: const EdgeInsets.only(
-                                    left: kDefaultPadding - 5,
-                                    top: kDefaultPadding - 13),
-                                child:  GetChienDich(documentId: docIDs[index]),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.topRight,
-                                padding: const EdgeInsets.only(
-                                    right: kDefaultPadding - 5,
-                                    top: kDefaultPadding - 10),
-                                child: const Text(
-                                  'Ngày bắt đầu:\n10/10/2000',
-                                  style: TextStyle(
-                                      color: colorNotice,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                            top: kDefaultPadding - 9,
-                            left: kDefaultPadding - 5,
-                            bottom: kDefaultPadding * 2 + 2,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              // ignore: avoid_unnecessary_containers
-                              Container(
-                                alignment: Alignment.center,
-                                width: 70,
-                                height: 30,
-                                margin: const EdgeInsets.only(
-                                    right: kDefaultPadding - 8),
-                                decoration: const BoxDecoration(
-                                  color: color1,
-                                ),
-                                child: const Text(
-                                  'Duy trì',
-                                  style: TextStyle(
-                                    color: textColor3,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 70,
-                                height: 30,
-                                margin: const EdgeInsets.only(
-                                    right: kDefaultPadding - 8),
-                                decoration: const BoxDecoration(
-                                  color: color3,
-                                ),
-                                child: const Text(
-                                  'Duy trì',
-                                  style: TextStyle(
-                                    color: textColor1,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                width: 30,
-                                height: 30,
-                                decoration: const BoxDecoration(
-                                  color: background2,
-                                ),
-                                child: const Text(
-                                  '+',
-                                  style: TextStyle(
-                                    color: textColor1,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // ignore: avoid_unnecessary_containers
-                        Container(
-                          padding: const EdgeInsets.only(
-                            bottom: kDefaultPadding-11,
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                alignment: Alignment.topLeft,
-                                padding: const EdgeInsets.only(
-                                    left: kDefaultPadding - 5,
-                                    ),
-                                child: Row(children: [
-                                  Container(
-                                      width: 8,
-                                      height: 8,
+                      width: size.width * 1.0,
+                      height: size.height * 0.75,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child:  FutureBuilder(
+                            future: getDocId(),
+                            builder: (context, snapshot) {
+                              return ListView.builder(
+                                itemCount: docIDs.length,
+                                itemBuilder: (context, index) {
+                                  return ListTile(
+                                    title: Container(
                                       margin: const EdgeInsets.only(
-                                        right: 3.0,
+                                        right: kDefaultPadding - 12,
+                                        left: kDefaultPadding - 12,
+                                        bottom: kDefaultPadding + 1,
                                       ),
                                       decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: colorNotice,
+                                        border: Border(
+                                          top: BorderSide(
+                                              width: 0.5, color: colorShadow),
+                                          left: BorderSide(
+                                              width: 0.5, color: colorShadow),
+                                          right: BorderSide(
+                                              width: 0.5, color: colorShadow),
+                                          bottom: BorderSide(
+                                              width: 0.5, color: colorShadow),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            offset: Offset(0, 10),
+                                            blurRadius: 10,
+                                            spreadRadius: 2,
+                                            color: colorShadow,
+                                          ),
+                                        ],
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          GetChienDich(
+                                              documentId: docIDs[index]),
+
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                              top: kDefaultPadding - 9,
+                                              left: kDefaultPadding - 5,
+                                              bottom: kDefaultPadding * 2 + 2,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                // ignore: avoid_unnecessary_containers
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: 70,
+                                                  height: 30,
+                                                  margin: const EdgeInsets.only(
+                                                      right:
+                                                          kDefaultPadding - 8),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: color1,
+                                                  ),
+                                                  child: const Text(
+                                                    'Duy trì',
+                                                    style: TextStyle(
+                                                      color: textColor3,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: 70,
+                                                  height: 30,
+                                                  margin: const EdgeInsets.only(
+                                                      right:
+                                                          kDefaultPadding - 8),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: color3,
+                                                  ),
+                                                  child: const Text(
+                                                    'Duy trì',
+                                                    style: TextStyle(
+                                                      color: textColor1,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  alignment: Alignment.center,
+                                                  width: 30,
+                                                  height: 30,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    color: background2,
+                                                  ),
+                                                  child: const Text(
+                                                    '+',
+                                                    style: TextStyle(
+                                                      color: textColor1,
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // ignore: avoid_unnecessary_containers
+                                          Container(
+                                            padding: const EdgeInsets.only(
+                                              bottom: kDefaultPadding - 11,
+                                            ),
+                                            child: Row(children: [
+                                              Container(
+                                                  alignment: Alignment.topLeft,
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: kDefaultPadding - 5,
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        width: 8,
+                                                        height: 8,
+                                                        margin: const EdgeInsets
+                                                            .only(
+                                                          right: 3.0,
+                                                        ),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          color: colorNotice,
+                                                        ),
+                                                      ),
+                                                      const Text(
+                                                        "Chiến dịch được khởi chạy",
+                                                        style: TextStyle(
+                                                          color: textColor4,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )),
+                                              Expanded(
+                                                flex: 1,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              HomePage(
+                                                                  documentId:
+                                                                      docIDs[
+                                                                          index])),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    padding: const EdgeInsets
+                                                            .only(
+                                                        right: kDefaultPadding -
+                                                            11),
+                                                    child: const Text(
+                                                      'Xem ngay >>',
+                                                      style: TextStyle(
+                                                          color: textColor1,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                          )
+                                        ],
                                       ),
                                     ),
-                                  const Text("Chiến dịch được khởi chạy",style: TextStyle(
-                                                color: textColor4,
-                                                fontSize: 12,),),
-                                ],)
-                              ),
-                              
-            
-                              Expanded(
-                              flex: 1,
-                              child: Container(
-                                alignment: Alignment.topRight,
-                                padding: const EdgeInsets.only(
-                                    right: kDefaultPadding - 11),
-                                child: const Text(
-                                  'Xem ngay >>',
-                                  style: TextStyle(
-                                      color: textColor1,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            ]
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  
-  );
-
- 
-                        },
-                        
-                      );
-                      },)
-                    ),
-                  ),
-                 
+                                  );
+                                },
+                              );
+                            },
+                          )),
+                        ],
+                      )),
                 ],
               ),
             )),
@@ -386,10 +379,9 @@ Future getDocId() async {
             icon: Image.asset('assets/images/people.png'),
             onPressed: () {
               Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const UserPage()),
-                            );
+                context,
+                MaterialPageRoute(builder: (context) => const UserPage()),
+              );
             },
           ),
         )
@@ -401,8 +393,4 @@ Future getDocId() async {
       ),
     );
   }
-
-
-
-  
 }

@@ -1,46 +1,14 @@
-// 
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 
-class HomeScreen123 extends StatefulWidget {
-  const HomeScreen123({Key? key}) : super(key: key);
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen123> {
-  Map<String, dynamic>? paymentIntent;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Stripe Payment'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextButton(
-              child: const Text('Buy Now'),
-              onPressed: () async {
-                await makePayment();
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> makePayment() async {
+Map<String, dynamic>? paymentIntent;
+Future<void> makePayment() async {
     try {
       paymentIntent = await createPaymentIntent('10000', 'GBP');
 
-      var gpay = PaymentSheetGooglePay(merchantCountryCode: "GB",
+      var gpay = const PaymentSheetGooglePay(merchantCountryCode: "GB",
           currencyCode: "GBP",
           testEnv: true);
 
@@ -93,5 +61,3 @@ class _HomeScreenState extends State<HomeScreen123> {
     }
   }
 
-
-}

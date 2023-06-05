@@ -1,9 +1,59 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/readdata/get_user_name.dart';
+import 'package:emailmarketing/screens/user/user_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class UserEditPage extends StatelessWidget {
+class UserEditPage extends StatefulWidget {
   const UserEditPage({super.key});
 
+  @override
+  State<UserEditPage> createState() => _UserEditPageState();
+}
+
+class _UserEditPageState extends State<UserEditPage> {
+
+
+  final user = FirebaseAuth.instance.currentUser!;
+
+
+  final _emailController = TextEditingController();
+  final _sdtController = TextEditingController();
+  final _diachiController = TextEditingController();
+  final _ngaysinhController = TextEditingController(); 
+  
+  
+Future<void> updateUserDetails( String sdt, String email,  String ngaysinh, String diachi) async {
+  CollectionReference users = FirebaseFirestore.instance.collection('user');
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String uid = auth.currentUser!.uid.toString();
+  users.doc(uid).update({
+    'email':email,
+    'sdt':sdt,
+    'ngaysinh':ngaysinh,
+    'diachi':diachi,
+  });
+  return;
+}
+Future fetchUserDetail() async {
+  await FirebaseFirestore.instance.collection('user').doc(user.uid).get().then((ds) {
+    _sdtController.text=ds.data()!['sdt'];
+    _emailController.text=ds.data()!['email'];
+    _ngaysinhController.text=ds.data()!['ngaysinh'];
+    _diachiController.text=ds.data()!['diachi'];
+
+  });
+  }
+
+ @override
+  void initState() {
+
+    super.initState();
+    fetchUserDetail();
+    
+  }
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,13 +107,7 @@ class UserEditPage extends StatelessWidget {
                     top: kDefaultPadding * 2 + 6,
                     bottom: kDefaultPadding - 19,
                   ),
-                  child: const Text(
-                    'Nguyễn Văn A',
-                    style: TextStyle(
-                        color: textColor1,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  ),
+                  child: GetUserName(documentId: user.uid),
                 ),
                 Container(
                   alignment: Alignment.center,
@@ -105,10 +149,11 @@ class UserEditPage extends StatelessWidget {
                     color: colorInput,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child:  TextField(
+                    controller: _sdtController,
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
-                      //hintText: 'Enter a search term',
+                     
                     ),
                   ),
                 ),
@@ -139,8 +184,9 @@ class UserEditPage extends StatelessWidget {
                     color: colorInput,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child:  TextField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       //hintText: 'Enter a search term',
                     ),
@@ -173,11 +219,34 @@ class UserEditPage extends StatelessWidget {
                     color: colorInput,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child:  TextField(
+                    controller: _ngaysinhController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       //hintText: 'Enter a search term',
                     ),
+                    onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context, initialDate: DateTime.now(),
+                      firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100)
+                  );
+                  
+                  if(pickedDate != null ){
+                      print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate); 
+                      print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                        //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                         _ngaysinhController.text = formattedDate; //set output date to TextField value. 
+                      });
+                  }else{
+                      print("Date is not selected");
+                  }
+                },
+  
                   ),
                 ),
                 Container(
@@ -207,8 +276,9 @@ class UserEditPage extends StatelessWidget {
                     color: colorInput,
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
-                  child: const TextField(
-                    decoration: InputDecoration(
+                  child:  TextField(
+                    controller: _diachiController,
+                    decoration: const InputDecoration(
                       border: InputBorder.none,
                       //hintText: 'Enter a search term',
                     ),
@@ -222,7 +292,30 @@ class UserEditPage extends StatelessWidget {
                     width: 155,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+updateUserDetails(
+  _sdtController.text.toString().trim(),
+    _emailController.text.toString().trim(),
+    _ngaysinhController.text.toString().trim(),
+    
+    _diachiController.text.toString().trim(),
+    
+    
+    
+    );
+
+ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Cập nhật thông tin User thành công!!!"),
+      ),
+    );
+    Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const UserPage()),
+                            );
+
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4)),
@@ -246,3 +339,5 @@ class UserEditPage extends StatelessWidget {
     );
   }
 }
+
+  

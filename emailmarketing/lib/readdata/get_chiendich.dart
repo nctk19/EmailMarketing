@@ -20,10 +20,40 @@ class GetChienDich extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done){
           Map<String, dynamic> data =
           snapshot.data!.data() as Map<String, dynamic>;
-          return Text('${data['name']}',style: const TextStyle(
+          return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                padding: const EdgeInsets.only(
+                                    left: kDefaultPadding - 5,
+                                    top: kDefaultPadding - 13),
+                                child:  Text('${data['name']}',style: const TextStyle(
                                       color: textColor1,
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold),);
+                                      fontWeight: FontWeight.bold),)
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.topRight,
+                                padding: const EdgeInsets.only(
+                                    right: kDefaultPadding - 5,
+                                    top: kDefaultPadding - 10),
+                                child: Text(
+                                  'Ngày bắt đầu:\n'+'${data['ngaybatdau']}',
+                                  style: const TextStyle(
+                                      color: colorNotice,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
         }
         return Text('Loading...');
       }),

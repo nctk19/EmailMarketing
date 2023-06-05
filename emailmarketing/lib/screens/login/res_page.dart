@@ -3,6 +3,7 @@ import 'package:emailmarketing/constant.dart';
 import 'package:emailmarketing/screens/login/success_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ResPage extends StatefulWidget {
   const ResPage({super.key});
@@ -16,42 +17,77 @@ class _ResPageState extends State<ResPage> {
   final _emailController = TextEditingController();
   final _sdtController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _diachiController = TextEditingController();
+  final _ngaysinhController = TextEditingController(); 
 
   Future singUp() async {
     try {
 
   // ignore: unused_local_variable
-   await FirebaseAuth.instance.createUserWithEmailAndPassword(
+   if(_emailController.text.toString().trim()!="" &&
+    _sdtController.text.toString().trim()!="" &&
+    _diachiController.text.toString().trim()!="" &&
+    _nameController.text.toString().trim()!="" &&
+    _ngaysinhController.text.toString().trim()!="" &&
+    _passwordController.text.trim()!="")
+   {
+await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: _emailController.text.toString().trim(), 
       password: _passwordController.text.trim(),
       
-  );
-  addUserDetails(_emailController.text.toString().trim(), _sdtController.text.toString().trim());
+  ).then((value) {
+    FirebaseFirestore.instance.collection('user').doc(value.user?.uid);
+  },) ;
+  addUserDetails(
+    _emailController.text.toString().trim(),
+    _sdtController.text.toString().trim(),
+    _diachiController.text.toString().trim(),
+    _nameController.text.toString().trim(),
+    _ngaysinhController.text.toString().trim(),
+    
+    );
   // ignore: avoid_print
-  print('tao thanh cong');
-  
+  ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Tạo tài khoản thành công!!!'),
+      ),
+    );
+   }
+  else
+  {
+ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Vui lòng nhập đầy đủ thông tin.'),
+      ),
+    );
+  }
 
 } 
 on FirebaseAuthException catch (e) {
   if (e.code == 'email-already-in-use') {
     // ignore: avoid_print
-    print('Email da ton tai');
-  
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Email đã tồn tại.'),
+      ),
+    );
   }
 }
    
   }
  
-Future<void> addUserDetails(String email, String sdt) async {
+Future<void> addUserDetails(String email, String sdt, String diachi, String name, String ngaysinh) async {
   CollectionReference users = FirebaseFirestore.instance.collection('user');
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser!.uid.toString();
-  users.add({
+  users.doc(uid).set({
+    'name':name,
     'email':email,
     'sdt':sdt,
     'uid':uid,
-    'ngaysinh':'',
-    'diachi':'',
+    'ngaysinh':ngaysinh,
+    'diachi':diachi,
   });
   return;
 }
@@ -134,7 +170,7 @@ Future<void> addUserDetails(String email, String sdt) async {
                     right: 9 + kDefaultPadding,
                   ),
                   child: TextFormField(
-                    controller: _emailController,
+                    controller: _nameController,
                     style: const TextStyle(fontSize: 14),
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -142,6 +178,132 @@ Future<void> addUserDetails(String email, String sdt) async {
                     ),
                   ),
                 ),
+                
+               
+                
+                
+                 Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding - 9,
+                    left: 9 + kDefaultPadding,
+                    bottom: kDefaultPadding - 5,
+                  ),
+                  child: const Text(
+                    'Ngày sinh',
+                    style: TextStyle(
+                      color: textColor1,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 9 + kDefaultPadding,
+                    right: 9 + kDefaultPadding,
+                  ),
+                  child: TextFormField(
+                    controller: _ngaysinhController,
+                    readOnly: true,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Nhập ngày sinh của bạn',
+                    ),
+                    
+
+onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context, initialDate: DateTime.now(),
+                      firstDate: DateTime(1900), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2100)
+                  );
+                  
+                  if(pickedDate != null ){
+                      print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
+                      String formattedDate = DateFormat('dd/MM/yyyy').format(pickedDate); 
+                      print(formattedDate); //formatted date output using intl package =>  2021-03-16
+                        //you can implement different kind of Date Format here according to your requirement
+
+                      setState(() {
+                         _ngaysinhController.text = formattedDate; //set output date to TextField value. 
+                      });
+                  }else{
+                      print("Date is not selected");
+                  }
+                },
+             
+
+
+                    
+                  ),
+                ),
+                
+                 Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding - 9,
+                    left: 9 + kDefaultPadding,
+                    bottom: kDefaultPadding - 5,
+                  ),
+                  child: const Text(
+                    'Địa chỉ',
+                    style: TextStyle(
+                      color: textColor1,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 9 + kDefaultPadding,
+                    right: 9 + kDefaultPadding,
+                  ),
+                  child: TextFormField(
+                    controller: _diachiController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Nhập địa chỉ của bạn',
+                    ),
+                  ),
+                ),
+                
+
+
+                 Container(
+                  alignment: Alignment.topLeft,
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding - 9,
+                    left: 9 + kDefaultPadding,
+                    bottom: kDefaultPadding - 5,
+                  ),
+                  child: const Text(
+                    'Email',
+                    style: TextStyle(
+                      color: textColor1,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 9 + kDefaultPadding,
+                    right: 9 + kDefaultPadding,
+                  ),
+                  child: TextFormField(
+                    controller: _emailController,
+                    style: const TextStyle(fontSize: 14),
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Nhập email của bạn',
+                    ),
+                  ),
+                ),
+                
+                
+                
+                
                 Container(
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.only(

@@ -1,5 +1,9 @@
 import 'package:emailmarketing/constant.dart';
+import 'package:emailmarketing/screens/snackbar/payment_snackbar.dart';
+import 'package:emailmarketing/vd.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class KetnoiviSnackBar extends StatelessWidget {
@@ -9,13 +13,10 @@ class KetnoiviSnackBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: TextButton.styleFrom(
-    alignment: Alignment.centerLeft, // <-- had to set alignment
-    padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-  ),
-      onPressed: () {
-         showModalBottomSheet(
+    //final paymentController = Get.put(PaymentController());
+    return  GestureDetector(
+                        onTap: (){
+                           showModalBottomSheet(
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(24),
@@ -183,9 +184,14 @@ class KetnoiviSnackBar extends StatelessWidget {
                                 width: 370.0,
                                 height: 50.0,
                                 child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
+                                  onPressed: () async {
+                                    if (_checked==true)
+                                    {
+                                        Navigator.pop(context);
+                                    //paymentController.makePayment(amount: '5', currency: 'USD');
+                                    await makePayment();
+                                    }
+                                    },
                                   style: ElevatedButton.styleFrom(
                                     padding: const EdgeInsets.only(
                                       left: kDefaultPadding + 3,
@@ -203,14 +209,14 @@ class KetnoiviSnackBar extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                     right: kDefaultPadding,
                   ),
-                  child: Image.asset("assets/images/logo-momo.png",
-                width: 24,
-                height: 24,
+                  child: Image.asset("assets/images/Stripe-Payment-Logo.png",
+                width: 50,
+                height: 50,
                  ),
                                         ),
                                         Container(
                                           child: const Text(
-                                      'Ví Momo',
+                                      'Payment',
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 18,
@@ -229,14 +235,31 @@ class KetnoiviSnackBar extends StatelessWidget {
                 });
               });
        
-        
-      },
-      child: const Text(
-                            'Chuyển tài khoản',
-                            style: TextStyle(
-                                color: color2,
-                                fontSize: 18,),
-                          ),
-    );
+                        },
+                        child: Stack(
+                          
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Container(
+                              width: 64,
+                              height: 64,
+                              padding: const EdgeInsets.only(),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: colorWallet,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(),
+                              width: 24,
+                              height: 24,
+                              child: Image.asset(
+                                'assets/images/wallet.png',
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
   }
 }
